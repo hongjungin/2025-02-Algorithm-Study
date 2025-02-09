@@ -30,6 +30,13 @@ public class B11403 {
             // i에서 갈 수 있는 노드 찾기
             dfs(i,i);
         }
+
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                System.out.print(result[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
 
     static void dfs(int start, int node) {
