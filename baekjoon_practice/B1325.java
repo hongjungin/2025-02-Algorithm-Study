@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class B1325 {
@@ -47,7 +48,13 @@ public class B1325 {
             result[i] = dfs(i);
         }
 
-        int maxComs =
+        int maxComs = Arrays.stream(result).max().getAsInt();
+
+        for (int i = 1; i <= N; i++) {
+            if (result[i] == maxComs) {
+                System.out.print(i + " ");
+            }
+        }
     }
     static int dfs(int node) {
         visited[node] = true;
