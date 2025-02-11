@@ -48,7 +48,11 @@ public class B1325 {
             result[i] = dfs(i);
         }
 
-        int maxComs = Arrays.stream(result).max().getAsInt();
+        int maxComs = -1;
+
+        for (int i = 0; i <= N; i++) {
+            maxComs = Math.max(maxComs, result[i]);
+        }
 
         for (int i = 1; i <= N; i++) {
             if (result[i] == maxComs) {
