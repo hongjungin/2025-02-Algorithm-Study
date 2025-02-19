@@ -5,9 +5,10 @@ import java.util.Iterator;
 import java.util.StringTokenizer;
 
 public class Main {
-	// 고정 크기 -> 배열로 구현해야겠다
+
 	static int N, K;
 	static int[] temp;
+	static int sum;
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -15,26 +16,27 @@ public class Main {
 		// 입력 받기
 		N = Integer.parseInt(st.nextToken());
 		K = Integer.parseInt(st.nextToken());
+		
 		temp = new int[N];
+		
 		st = new StringTokenizer(br.readLine());
 		for (int i = 0; i < N; i++) {
 			temp[i] = Integer.parseInt(st.nextToken());
 		}
+		// 미리 합 구하기
+		int sum = 0;
+		for (int i = 0; i < K; i++) {
+			sum += temp[i];
+		}
 		
-		// 투포인터 활용해보자
 		
-		int maxSum = Integer.MIN_VALUE;
-		for (int left = 0; left < N - K + 1; left++) {
-			int sum = 0;
-			for (int right = left; right < K + left; right++) {
-				sum += temp[right];
-			}
-			if(maxSum < sum) {
-				maxSum = sum;
-			}
+		int maxSum = sum;
+		// 맨 앞을 빼고 맨 뒤를 더해
+		for (int i = K; i < N; i++) {
+			sum = sum + temp[i] - temp[i - K];
+			maxSum = Math.max(maxSum, sum);
 		}
 		
 		System.out.println(maxSum);
 	}
-
 }
