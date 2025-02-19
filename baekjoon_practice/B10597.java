@@ -10,7 +10,7 @@ public class B10597 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         input = br.readLine();
-        visited = new boolean[];
+        visited = new boolean[51];
 
         subset(0,0);
     }
