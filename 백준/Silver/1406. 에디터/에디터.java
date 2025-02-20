@@ -7,12 +7,17 @@ import java.util.ListIterator;
 import java.io.IOException;
 
 public class Main {
+	static String str;
+	static LinkedList<Character> list;
+	static ListIterator<Character> iter;
+	static int T;
+	
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         
-        String str = br.readLine();
-        LinkedList<Character> list = new LinkedList<Character>();
+        str = br.readLine();
+        list = new LinkedList<Character>();
         
         // 초기 문자열을 연결 리스트에 추가
         for(int i = 0; i < str.length(); i++) {
@@ -20,13 +25,13 @@ public class Main {
         }
         
         // 리스트 iterator 사용
-        ListIterator<Character> iter = list.listIterator();
+        iter = list.listIterator();
         // 커서를 문자열 맨 뒤로 이동
         while(iter.hasNext()) {
             iter.next();
         }
         
-        int T = Integer.parseInt(br.readLine());
+        T = Integer.parseInt(br.readLine());
         
         for(int i = 0; i < T; i++) {
             String command = br.readLine();
