@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class B1325 {
+public class Main {
     // 5 4
     // 3 1 : 3 -> 1
     // 3 2 : 3 -> 2
