@@ -12,7 +12,7 @@ public class Main {
         T = Integer.parseInt(br.readLine());
         for (int t = 0; t < T; t++) {
             N = Integer.parseInt(br.readLine());
-            Map<String, Integer> map = new HashMap<>(); // 의상 종류별 개수 저장
+            Map<String, Integer> map = new HashMap<>(); 
 
             for (int i = 0; i < N; i++) {
                 String[] input = br.readLine().split(" ");
