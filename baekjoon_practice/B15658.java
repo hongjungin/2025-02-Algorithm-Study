@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 // N개의 수로 이루어진 수열, 수와 수 사이 끼워넣을 수 있는 N-1개의 연산자(+ - * /)
@@ -16,11 +17,11 @@ import java.util.StringTokenizer;
 // 어떻게 나열할지 모르겠네
 
 
-public class B14888 {
-    static int N, R;
+public class B15658 {
+    static int N, R, sum;
     static int[] nums;
+    static int[] input;
     static int[] operator;
-    static int[] select;
     static boolean[] visited;
     static int min = Integer.MAX_VALUE;
     static int max = Integer.MIN_VALUE;
@@ -34,24 +35,28 @@ public class B14888 {
         for (int i = 0; i < N; i++) {
             nums[i] = Integer.parseInt(st.nextToken());
         }
-        R = N - 1;
-        operator = new int[N-1];
-        visited = new boolean[N-1];
-        // 2 1 1 1 이면 -> 1 1 2 3 4 저장 해야함.
-        // 0부터 a번 1을 저장
+
         st = new StringTokenizer(br.readLine());
+        sum = 0;
+        input = new int[4];
+        for (int i = 0; i < 4; i++) {
+            input[i] = Integer.parseInt(st.nextToken());
+            sum += input[i];
+        }
+
+        R = N - 1;
+        operator = new int[sum];
+        visited = new boolean[sum];
         int num = 1;
         int index = 0;
         for (int i = 0; i < 4; i++) {
-            // 4번 입력을 받아 -> 처음에는 2가 들어
-            int a = Integer.parseInt(st.nextToken());
+            int a = input[i];
             for (int j = 0; j < a; j++) {
                 operator[index] = num;
                 index++;
             }
             num++;
         }
-        // operator = {1, 1, 2, 3, 4} 처럼 있다고 생각해
 
         calculate(0, nums[0]);
         System.out.println(max);
@@ -71,7 +76,7 @@ public class B14888 {
             return;
         }
 
-        for (int i = 0; i < R; i++) {
+        for (int i = 0; i < sum; i++) {
             if (visited[i]) {
                 continue;
             }
