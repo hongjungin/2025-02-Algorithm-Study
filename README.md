@@ -1,2 +1,21 @@
-# Baekjoon
-This is an auto push repository for Baekjoon Online Judge created [BaekjoonHub](https://github.com/BaekjoonHub/BaekjoonHub).
+# ✍️ 2025 대기업 코딩테스트 대비 알고리즘 스터디
+
+## 기간: 2025.06 ~ 2025.08 (8주간)
+
+## 공부 목적
+- 코딩 테스트 실전 감각 강화
+- 구현 능력 향상
+- 문제 유형별 풀이 패턴 체화
+
+## 주차별 커리큘럼
+- Week 1: 문자열 + 배열
+- Week 2: 투포인터 + 해시맵
+...
+
+## 사용 언어
+- Java (IntelliJ + BufferedReader 기준)
+
+## 기록 방식
+- 폴더 구조: 주차/문제별 정리
+- 매일 README 작성
+- 정기 요약(summary.md)
