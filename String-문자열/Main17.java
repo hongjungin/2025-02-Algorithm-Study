@@ -4,6 +4,7 @@ import java.util.Scanner;
 class Main17 {
     public int solution(String str, char t){
         String input = str.toLowerCase();
+        t = Character.toLowerCase(t);
         int answer = 0;
 
         for (char c : input.toCharArray()) {
