@@ -62,7 +62,6 @@ public class Main {
                 List<String> path = new ArrayList<>();
 
                 while (!(curX == 0 && curY == 0)) {
-                    path.add("(" + curX + "," + curY + ")");
                     int prevX = parentX[curX][curY][wallStatus];
                     int prevY = parentY[curX][curY][wallStatus];
                     int prevWallStatus = parentWall[curX][curY][wallStatus];
@@ -72,7 +71,6 @@ public class Main {
                     wallStatus = prevWallStatus;
                 }
 
-                path.add("(0,0)");
                 Collections.reverse(path);
                 return cur.dist;
             }
