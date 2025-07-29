@@ -59,7 +59,6 @@ public class Main {
                 int wallStatus = cur.broke;
                 int curX = cur.x;
                 int curY = cur.y;
-                List<String> path = new ArrayList<>();
 
                 while (!(curX == 0 && curY == 0)) {
                     int prevX = parentX[curX][curY][wallStatus];
