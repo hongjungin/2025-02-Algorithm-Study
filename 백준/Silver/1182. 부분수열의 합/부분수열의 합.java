@@ -4,59 +4,45 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int N, S;
-	static int[] input;
-	static int count;
-	static int sum;
-	static boolean[] selected;
-	// 부분 수열 중에서 ~ -> 부분집합으로 풀어
-	// 부분 집합 필승 접근법 -> 
-	
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		
-		N = Integer.parseInt(st.nextToken());
-		S = Integer.parseInt(st.nextToken());
-		
-		input = new int[N];
-		selected = new boolean[N];
-		st = new StringTokenizer(br.readLine());
-		for (int i = 0; i < N; i++) {
-			input[i] = Integer.parseInt(st.nextToken());
-		}
-		subset(0);	
-		
-		System.out.println(count);
-	}
-	private static void subset(int depth) {
-		if (depth == N) {
-			countSum();
-			return;
-		}
-		selected[depth] = true;
-		subset(depth + 1);
-		
-		selected[depth] = false;
-		subset(depth + 1);
-	}
-	private static void countSum() {
-		int sum = 0;
-		boolean isSelected = false;
-		for (int i = 0; i < N; i++) {
-			if (selected[i]) {
-				isSelected = true;
-				sum += input[i];
-			}
-		}
-		if (!isSelected) {
-			return;
-		}
-		
-		if (sum == S) {
-			count++;
-		}
+    static int N, S, count;
+    static int[] arr;
+    static boolean[] selected;
 
-	}
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
+        N = Integer.parseInt(st.nextToken());
+        S = Integer.parseInt(st.nextToken());
+
+        arr = new int[N];
+        selected = new boolean[N + 1];
+
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N;i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+
+        count = 0;
+        DFS(1);
+        if(S==0) count--;
+        System.out.println(count);
+    }
+
+    static void DFS(int depth) {
+        if (depth == N + 1) {
+
+            int sum = 0;
+            for (int i = 1; i <= N; i++) {
+                if(selected[i]) sum += arr[i - 1];
+            }
+
+            if(sum == S) count++;
+        } else {
+            selected[depth] = true;
+            DFS(depth + 1);
+            selected[depth] = false;
+            DFS(depth + 1);
+        }
+    }
 }
