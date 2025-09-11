@@ -1,48 +1,47 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
+import java.lang.*;
+
+// 부분 수열의 합 -> 갯수 고정아님 subset?
 
 public class Main {
-    static int N, S, count;
-    static int[] arr;
-    static boolean[] selected;
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static int N, S, count;
+    static boolean[] visited;
+    static int[] arr;
+
+    public static void main (String args[]) throws IOException {
+        BufferedReader br = new BufferedReader(new BufferedReader(new InputStreamReader(System.in)));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         N = Integer.parseInt(st.nextToken());
         S = Integer.parseInt(st.nextToken());
 
-        arr = new int[N];
-        selected = new boolean[N + 1];
-
         st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N;i++) {
+        arr = new int[N];
+        visited = new boolean[N];
+        for (int i = 0; i < N; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
         count = 0;
-        DFS(1);
-        if(S==0) count--;
+        subset(0, 0);
+        if (S == 0) count--;
         System.out.println(count);
     }
 
-    static void DFS(int depth) {
-        if (depth == N + 1) {
+    static void subset(int depth, int sum) {
 
-            int sum = 0;
-            for (int i = 1; i <= N; i++) {
-                if(selected[i]) sum += arr[i - 1];
+        if (depth == N) {
+            for (int i = 0; i < N; i++) {
+                if(visited[i]) sum += arr[i];
             }
 
-            if(sum == S) count++;
-        } else {
-            selected[depth] = true;
-            DFS(depth + 1);
-            selected[depth] = false;
-            DFS(depth + 1);
+            if (sum == S) count++;
+            return;
         }
+
+        subset(depth + 1, sum + arr[depth]);
+        subset(depth + 1, sum);
     }
 }
