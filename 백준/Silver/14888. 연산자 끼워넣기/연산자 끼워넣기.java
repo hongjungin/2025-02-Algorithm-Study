@@ -1,87 +1,76 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
+import java.lang.*;
 
-// N개의 수로 이루어진 수열, 수와 수 사이 끼워넣을 수 있는 N-1개의 연산자(+ - * /)
-// 만들 수 있는 식의 결과가 최대인 것과 최소인 것.
-
-// 여러 개를 다 해보고 그 중에 최대 최소 정함 -> 완탐
-// 숫자는 위치 변경 안함. 연산자만 순서 변경 가능.
-// 1. 숫자랑 연산자를 같은 곳에 저장 ? X
-// 2. 숫자랑 연산자랑 따로 저장 ? -> 고정 길이니까 배열에 저장.
-
-// 연잔사는 어떻게 저장할래. 2 1 1 1 이면 -> 숫자가 아니니까 어떻게 처리해야함...
-// 순서를 나열하니까 perm 쓰는 거 같은데 이게 숫자가 아니라 연산자니까
-// 어떻게 나열할지 모르겠네
-
+// 수는 위치 고정.
+// 연산자가 순열 조합 -> 연산자를 배치하고 그 다음에 연산하고 그다음에 최대최소?
 
 public class Main {
-    static int N, R;
-    static int[] nums;
-    static int[] operator;
-    static int[] select;
-    static boolean[] visited;
-    static int min = Integer.MAX_VALUE;
-    static int max = Integer.MIN_VALUE;
 
-    public static void main(String[] args) throws IOException {
+    static int N;
+    static int[] arr;
+    static int[] operator; // + - * /
+    static int[] selected;
+    static int max = Integer.MIN_VALUE;
+    static int min = Integer.MAX_VALUE;
+
+    public static void main (String args[]) throws IOException {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
 
-        nums = new int[N];
         StringTokenizer st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N; i++) {
-            nums[i] = Integer.parseInt(st.nextToken());
-        }
-        R = N - 1;
-        operator = new int[N-1];
-        visited = new boolean[N-1];
-        // 2 1 1 1 이면 -> 1 1 2 3 4 저장 해야함.
-        // 0부터 a번 1을 저장
-        st = new StringTokenizer(br.readLine());
-        int num = 1;
-        int index = 0;
-        for (int i = 0; i < 4; i++) {
-            // 4번 입력을 받아 -> 처음에는 2가 들어
-            int a = Integer.parseInt(st.nextToken());
-            for (int j = 0; j < a; j++) {
-                operator[index] = num;
-                index++;
-            }
-            num++;
-        }
-        // operator = {1, 1, 2, 3, 4} 처럼 있다고 생각해
+        arr = new int[N];
+        operator = new int[4];
+        selected = new int[N-1];
 
-        calculate(0, nums[0]);
+        for (int i = 0; i < N; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < 4; i++) {
+            operator[i] = Integer.parseInt(st.nextToken());
+        }
+
+        // 이제 배치
+        dfs(0, arr[0]);
         System.out.println(max);
         System.out.println(min);
     }
 
-    private static void calculate(int depth, int tot) {
-        if (depth == R){
-            if (tot < min){
-                min = tot;
-            }
+    static void dfs (int depth, int next) {
 
-            if (tot > max) {
-                max = tot;
-            }
-
+        if (depth == N - 1) {
+            min = Math.min(min, next);
+            max = Math.max(max, next);
             return;
         }
 
-        for (int i = 0; i < R; i++) {
-            if (visited[i]) {
-                continue;
-            }
-            visited[i] = true;
+        int val = 0;
 
-            if (operator[i] == 1) calculate(depth+1, tot + nums[depth+1]);
-            if (operator[i] == 2) calculate(depth+1, tot - nums[depth+1]);
-            if (operator[i] == 3) calculate(depth+1, tot * nums[depth+1]);
-            if (operator[i] == 4) calculate(depth+1, tot / nums[depth+1]);
-            visited[i] = false;
+        for (int i = 0; i < 4; i++) {
+            if (operator[i] > 0) {
+                operator[i]--;
+                val = cal(next, arr[depth + 1], i);
+                dfs(depth + 1, val);
+                operator[i]++;
+            }
         }
+    }
+
+    private static int cal(int cur, int next, int operator) {
+
+        if (operator == 0) {
+            return cur + next;
+
+        } else if (operator == 1) {
+            return cur - next;
+        } else if (operator == 2) {
+            return cur * next;
+        } else if (operator == 3) {
+            return cur / next;
+        }
+        return 0;
     }
 }
