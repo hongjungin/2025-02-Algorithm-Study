@@ -56,7 +56,7 @@ public class Main_2470 {
 
         }
 
-        if (a > b) { int t = a; a = b; b = t; }
+        if (a > b) { int t = a; a = b; b = t;}
         System.out.println(a + " " + b);
 
     }
