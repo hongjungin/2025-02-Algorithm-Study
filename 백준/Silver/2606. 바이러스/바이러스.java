@@ -1,60 +1,54 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
 
-// 그래프 이용
-// 컴퓨터 = 노드 -> N
-// 연결되는 컴퓨터 쌍 = 간선의 수 -> M
-// DFS문제 !
+// 한 컴퓨터가 바이러스 -> 연결된 애들 다 바이러스
+// 양방향 그래프 탐색 문제
+// 배열 안에 리스트인 형식
 
-// 1 -> 2 -> 3
-// 1 -> 5
-// 5 -> 2 5 -> 6
-// 4 -> 7
 public class Main {
-    static int N, M;
-    static List<Integer>[] graph;
+    static int num;
+    static int N, result;
+    static List<Integer>[] computers;
     static boolean[] visited;
-    static int computer;
-    public static void main(String[] args) throws IOException {
+
+    public static void main (String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        st = new StringTokenizer(br.readLine());
-        M = Integer.parseInt(st.nextToken());
 
-        // 그래프 초기화
-        graph = new ArrayList[N + 1];
-        // 연결 리스트 초기화
-        for (int i = 1; i <= N ; i++) {
-            graph[i] = new ArrayList<>();
+        num = Integer.parseInt(br.readLine());
+        N = Integer.parseInt(br.readLine());
+
+        computers = new ArrayList[num + 1];
+
+        for (int i = 1; i < num + 1; i++) {
+            computers[i] = new ArrayList<>();
         }
 
-        for (int i = 0; i < M; i++) {
-            st = new StringTokenizer(br.readLine());
-            int u = Integer.parseInt(st.nextToken());
-            int n = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < N; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
 
-            graph[u].add(n);
-            graph[n].add(u);
+            computers[a].add(b);
+            computers[b].add(a);
         }
-        visited = new boolean[N + 1];
-        computer = 0;
+
+        visited = new boolean[num + 1];
+        result = 0;
         dfs(1);
-        System.out.print(computer);
+
+        System.out.println(result);
     }
 
-    static void dfs(int depth){
-        visited[depth] = true;
+    static void dfs (int start) {
+        visited[start] = true;
 
-        for (int next : graph[depth]) {
-            if (!visited[next]) {
-                computer++;
-                dfs(next);
+        for (int c : computers[start]) {
+            if (!visited[c]) {
+                visited[c] = true;
+                result++;
+                dfs(c);
             }
         }
+
     }
 }
