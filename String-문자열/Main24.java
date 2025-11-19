@@ -14,7 +14,6 @@ class Main24 {
         answer = "NO";
         return answer;
     }
-
     public static void main(String[] args) {
         Main24 T = new Main24();
         Scanner kb = new Scanner(System.in);
