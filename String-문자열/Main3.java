@@ -13,7 +13,6 @@ class Main3 {
                 answer = x;
             }
         }
-
         return answer;
     }
 
