@@ -1,89 +1,81 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
+
+// 상하좌우 이동 가능
+// 필요한 최소 지렁이 개수
+// 0은 배추 x, 1은 배추 o
 
 public class Main {
-	// 최소 -> bfs로 접근
-	// 0 : 배추 X, 1 : 배추 O
 
-	static int T, N, M, cabbage;
-	static int warm;
-	static int[][] field;
-	static boolean[][] visited;
+    static int T, M, N, K, X, Y;
+    static int[][] field;
+    static boolean[][] visited;
+    static int[] dx = {-1, 0, 1, 0};
+    static int[] dy = {0, 1, 0, -1};
 
-	static int[] dx = { -1, 0, 1, 0 };
-	static int[] dy = { 0, 1, 0, -1 };
+    public static void main (String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		// 입력값 받기
-		T = Integer.parseInt(st.nextToken());
+        T = Integer.parseInt(br.readLine());
+        StringBuilder sb = new StringBuilder();
 
-		for (int k = 0; k < T; k++) {
-			StringTokenizer line = new StringTokenizer(br.readLine());
-			M = Integer.parseInt(line.nextToken());
-			N = Integer.parseInt(line.nextToken());
-			cabbage = Integer.parseInt(line.nextToken());
-			// 배열 초기화
-			field = new int[M][N];
-			visited = new boolean[M][N];
+        for (int t = 0; t < T; t++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
 
-			// 배열 채우기
-			for (int i = 0; i < cabbage; i++) {
-				StringTokenizer input = new StringTokenizer(br.readLine());
-				int x = Integer.parseInt(input.nextToken());
-				int y = Integer.parseInt(input.nextToken());
+            M = Integer.parseInt(st.nextToken());
+            N = Integer.parseInt(st.nextToken());
+            K = Integer.parseInt(st.nextToken());
 
-				if (x >= 0 && x < M && y >= 0 && y < N) {
-					field[x][y] = 1;
-				}
-			}
-			// 만약 다음 경로가 없다면 ?
-			// bfs가 끝나면 warm++ 해주고 또 돌려야함.
-			// 모든 좌표 순회하면서 bfs 탐색
-			int warm = 0;
-			for (int i = 0; i < M; i++) {
-				for (int j = 0; j < N; j++) {
-					if (!visited[i][j] && field[i][j] == 1) {
-						bfs(i, j);
-						warm++;
-					}
-				}
-			}
+            field = new int[M][N];
+            visited = new boolean[M][N];
 
-			System.out.println(warm);
-		}
+            for (int k = 0; k < K; k++) {
+                st = new StringTokenizer(br.readLine());
 
-	}
+                int m = Integer.parseInt(st.nextToken());
+                int n = Integer.parseInt(st.nextToken());
 
-	// bfs를 돌리고 끝나면 warm 개수 + 1
-	private static void bfs(int x, int y) {
-		Queue<int[]> queue = new LinkedList<>();
-		queue.add(new int[] { x, y });
-		visited[x][y] = true;
+                field[m][n] = 1;
+            }
 
-		while (!queue.isEmpty()) {
-			int[] node = queue.poll();
-			int cx = node[0];
-			int cy = node[1];
+            int count = 0;
 
-			// 네 방향 탐색
-			for (int i = 0; i < 4; i++) {
-				int nx = cx + dx[i];
-				int ny = cy + dy[i];
+            for (int i = 0; i < M; i++) {
+                for (int j = 0; j < N; j++) {
+                    if (!visited[i][j] && field[i][j] == 1) {
+                        bfs(i, j);
+                        count++;
+                    }
+                }
+            }
 
-				if (nx >= 0 && nx < M && ny >= 0 && ny < N && !visited[nx][ny] && field[nx][ny] == 1) {
-					queue.add(new int[] { nx, ny });
-					visited[nx][ny] = true;
-				}
-			}
+            sb.append(count).append("\n");
+        }
+        
+        System.out.println(sb);
+    }
 
-		}
-	}
+    private static void bfs(int m, int n) {
+        Queue<int[]> queue = new ArrayDeque<>();
+        queue.add(new int[] {m, n});
+        visited[m][n] = true;
+
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int cx = cur[0];
+            int cy = cur[1];
+
+            for (int i = 0; i < 4; i++) {
+                int nx = cx + dx[i];
+                int ny = cy + dy[i];
+
+                if (nx >= 0 && nx < M && ny >= 0 && ny < N && !visited[nx][ny] && field[nx][ny] == 1) {
+                    queue.add(new int[] {nx, ny});
+                    visited[nx][ny]= true;
+                }
+            }
+        }
+
+    }
 
 }
