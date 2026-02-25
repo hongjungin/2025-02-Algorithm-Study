@@ -36,12 +36,11 @@ public class B1922 {
         if(ra == rb) return false; // 이미 같은 그룹이면 합칠 필요x
 
         if (rank[ra] < rank[rb]) {
+            rank[rb] += rank[ra];
             parent[ra] = rb;
-        } else if (rank[ra] > rank[rb]) {
-            parent[rb] = ra;
         } else {
+            rank[ra] += rank[rb];
             parent[rb] = ra;
-            rank[ra]++;
         }
         return true;
     }
