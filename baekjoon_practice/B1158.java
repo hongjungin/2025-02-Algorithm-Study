@@ -40,6 +40,5 @@ public class B1158 {
 
         sb.append(">");
 
-        System.out.println(sb);
     }
 }
