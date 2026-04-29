@@ -1,44 +1,41 @@
 import java.util.*;
 
 class Solution {
-    static Queue<Integer> days;
-
+    
+    static int[] remainDays;
+    
     public int[] solution(int[] progresses, int[] speeds) {
+        List<Integer> answer = new ArrayList<>();
         
-        days = new ArrayDeque<>();
+        int len = progresses.length;
+        remainDays = new int[len];
         
-        int index = 0;
-        
-        for (int p : progresses) {
-            int d = (100 - p) / speeds[index];
+        for (int i = 0; i < len; i++) {
             
-            if ((100 - p) % speeds[index] > 0) {
-                d += 1;
+            int remain = 100 - progresses[i];
+            
+            remainDays[i] = (remain + speeds[i] - 1) / speeds[i];
+            
+        }
+        
+        int start = remainDays[0];
+        int count = 1;
+        for (int i = 1; i < len; i++) {
+            if (remainDays[i] <= start) {
+                count++;
+            } else {
+                answer.add(count);
+                start = remainDays[i];
+                count = 1;
             }
-            days.offer(d);
-            
-            index++;
+        }
+        answer.add(count);
+        
+        int[] result = new int[answer.size()];
+        for (int i = 0; i < answer.size(); i++) {
+            result[i] = answer.get(i);
         }
         
-        List<Integer> resultList = new ArrayList<>();        
-
-        while (!days.isEmpty()) {
-            
-            int now = days.poll();
-            int count = 1;
-            
-            while (!days.isEmpty() && days.peek() <= now) {
-            days.poll();
-            count++;
-            }
-            
-            resultList.add(count);
-        }
-        
-        int[] answer = new int[resultList.size()];
-        for (int i = 0; i < resultList.size(); i++) {
-            answer[i] = resultList.get(i);
-        }
-    return answer;
+        return result;
     }
 }
