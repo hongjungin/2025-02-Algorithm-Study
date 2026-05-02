@@ -1,28 +1,35 @@
 import java.util.*;
 
+// 숫자의 순서는 그대로
+// + 아니면 빼기 선택 
+// 타겟 넘버가 되면 끝 -> dfs로 가능 순열 문제! -> 20개 정도면 충분히 가능
+
 class Solution {
+    static int answer;
+    static int n;
+    
     public int solution(int[] numbers, int target) {
+        answer = 0;
+        n = numbers.length; 
         
-        Map<Integer, Integer> cur = new HashMap<>();
-        cur.put(0, 1); //초깃값
+        dfs(0,0, numbers, target);
         
-        for(int x : numbers) {
-            Map<Integer, Integer> next = new HashMap<>();
-            
-            for (Map.Entry<Integer, Integer> e : cur.entrySet()) {
-                int sum = e.getKey();
-                int cnt = e.getValue();
-                
-                int a = sum + x;
-                next.put(a, next.getOrDefault(a, 0) + cnt);
-                
-                int b = sum -x;
-                next.put(b, next.getOrDefault(b, 0) + cnt);
+        return answer;
+    }
+    
+    private static void dfs (int depth, int sum, int[] numbers, int target) {
+        // 종료 조건
+        if (depth == n) {
+            if (sum == target) {
+                answer++;
             }
-            
-            cur = next;
+            return;
         }
         
-        return cur.getOrDefault(target, 0);
+        // + 선택
+        dfs(depth + 1, sum + numbers[depth], numbers, target);
+        
+        // - 선택
+        dfs(depth + 1, sum - numbers[depth], numbers, target);
     }
 }
